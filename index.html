@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinh Dibble Dabbing with HTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            background-color: #333;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            color: white;
+            border-right: 1px solid #555;
+        }
+
+        .tab:last-child {
+            border-right: none;
+        }
+
+        .tab:hover {
+            background-color: #444;
+        }
+
+        .tab.active {
+            background-color: #007BFF;
+        }
+
+        .content {
+            padding: 20px;
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('home')">Home</div>
+        <div class="tab" onclick="showTab('about')">About</div>
+        <div class="tab" onclick="showTab('contact')">Contact</div>
+    </div>
+
+    <div id="home" class="content active">
+        <h1>Welcome to the Home Page</h1>
+        <p>This is the home section of the website.</p>
+    </div>
+    <div id="about" class="content">
+        <h1>About Me</h1>
+        <p>Learn more about me here.</p>
+    </div>
+    <div id="contact" class="content">
+        <h1>Contact with Me??</h1>
+        <p>Contact me if for any inquiries.</p>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.content');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
