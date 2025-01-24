@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>realvinn - Home</title>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="static/style.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar fade-in-down">
+    <div class="nav-left">
+      <!-- Logo or Home Icon leading to index.html -->
+      <a href="index.html" class="nav-home">
+        <!-- Simple "house" icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" class="home-icon">
+          <path d="M3 9.5l9-7 9 7v11.5a2 2 0 0 1-2 2h-2a2 
+                   2 0 0 1-2-2v-4h-4v4a2 2 0 0 1-2 2H5a2
+                   2 0 0 1-2-2z"></path>
+        </svg>
+      </a>
+    </div>
+    <div class="nav-center">
+      <!-- Minimal text nav, reminiscent of reflect -->
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero / Introduction Section -->
+  <!-- Large, center-aligned, minimal text, big heading, swirling gradient background -->
+  <section class="hero fade-in-up">
+    <div class="hero-content">
+      <h1>Welcome to my world of ideas</h1>
+      <p>I'm realvinn, a developer turning music data and more into engaging experiences.</p>
+      <button onclick="window.open('https://flask-song-app-zfwd.onrender.com', '_blank')">
+        Try my Song Search app
+      </button>
+    </div>
+  </section>
+
+  <!-- Possibly add a short "Features" or "About" chunk if you want, but keep it minimal for that reflect feel -->
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 realvinn - Powered by GitHub Pages</p>
+  </footer>
+</body>
+</html>

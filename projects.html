@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>realvinn - Projects</title>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="static/style.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Include your search script for the embedded Song Search section -->
+  <script src="static/script.js" defer></script>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar fade-in-down">
+    <div class="nav-left">
+      <a href="index.html" class="nav-home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" class="home-icon">
+          <path d="M3 9.5l9-7 9 7v11.5a2 2 0 0 1-2 2h-2a2 
+                   2 0 0 1-2-2v-4h-4v4a2 2 0 0 1-2 2H5a2
+                   2 0 0 1-2-2z"></path>
+        </svg>
+      </a>
+    </div>
+    <div class="nav-center">
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Projects Section -->
+  <section class="projects-section fade-in">
+    <h2>My Projects</h2>
+    <div class="project-card-container">
+      <!-- Card 1: Song Search -->
+      <div class="project-card">
+        <h3>Song Search</h3>
+        <p>Find songs by title or artist, using Flask & JSON APIs.</p>
+        <a href="#songSearch" class="card-button">Try It Below</a>
+      </div>
+      <!-- Card 2: Another Project Example -->
+      <div class="project-card">
+        <h3>Project Two</h3>
+        <p>A quick snippet describing your second project or highlight.</p>
+        <a href="https://github.com/realvinn" target="_blank" class="card-button">
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Embedded Song Search Section -->
+  <section id="songSearch" class="song-search-section fade-in">
+    <h2>Song Search</h2>
+    <p>Search below by song title or artist name.</p>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Type a song or artist..." />
+      <button onclick="searchSongs()">Search</button>
+    </div>
+    <div id="resultsContainer"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 realvinn - Powered by GitHub Pages</p>
+  </footer>
+</body>
+</html>
