@@ -1,7 +1,33 @@
-/*************************************************************
- * 1) Fuzzy Matching (Levenshtein Distance)
- *************************************************************/
-function levenshteinDistance(a, b) {
+document.addEventListener('DOMContentLoaded', () => {
+    const titleInput = document.getElementById('searchTitleInput');
+    const artistInput = document.getElementById('searchArtistInput');
+    const searchButton = document.getElementById('searchButton');
+    const clearButton = document.getElementById('clearButton');
+  
+    // When "Search" is clicked
+    if (searchButton) {
+      searchButton.addEventListener('click', searchSongs);
+    }
+  
+    // Optional: If you want search as you type, uncomment below
+    // titleInput.addEventListener('input', searchSongs);
+    // artistInput.addEventListener('input', searchSongs);
+  
+    // Clear inputs and results
+    if (clearButton) {
+      clearButton.addEventListener('click', () => {
+        if (titleInput) titleInput.value = "";
+        if (artistInput) artistInput.value = "";
+        const resultsContainer = document.getElementById('resultsContainer');
+        if (resultsContainer) resultsContainer.innerHTML = "";
+      });
+    }
+  });
+  
+  /*************************************************************
+   * 1) Levenshtein Distance for Fuzzy Matching
+   *************************************************************/
+  function levenshteinDistance(a, b) {
     const matrix = Array.from({ length: a.length + 1 }, () =>
       Array(b.length + 1).fill(0)
     );
@@ -23,38 +49,36 @@ function levenshteinDistance(a, b) {
         );
       }
     }
-  
     return matrix[a.length][b.length];
   }
   
-  /** 
+  /**
    * Returns true if 'text' fuzzy-matches 'query'.
    * We also do a direct 'includes' check for partial substring match.
+   * e.g. "sicjo mode" -> "sicko mode"
    */
   function fuzzyMatch(query, text) {
-    // If the text already includes the query, return true quickly
+    // Quick substring check
     if (text.includes(query)) return true;
   
-    // Otherwise, check approximate distance
+    // Otherwise, approximate distance
     const distance = levenshteinDistance(query, text);
-    // Adjust threshold based on how lenient you want to be
-    // e.g. "sicjo" -> "sicko" is 2 edits (j -> k, remove extra letter)
-    const threshold = 3;
-    return distance <= threshold;
+    // A threshold of ~3 handles short typos
+    return distance <= 3;
   }
   
   /*************************************************************
-   * 2) Search Function
+   * 2) Main Search Function
    *************************************************************/
   async function searchSongs() {
-    const userQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+    const titleQuery = (document.getElementById('searchTitleInput').value || "").trim().toLowerCase();
+    const artistQuery = (document.getElementById('searchArtistInput').value || "").trim().toLowerCase();
     const resultsContainer = document.getElementById('resultsContainer');
   
-    // Show "Searching..." message
     resultsContainer.innerHTML = "Searching...";
   
     try {
-      // Fetch from your Render URL or wherever your Flask app is hosted
+      // Fetch from your Render backend or wherever your Flask is hosted
       const response = await fetch("https://flask-song-app-zfwd.onrender.com/songs");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -62,13 +86,26 @@ function levenshteinDistance(a, b) {
   
       const songs = await response.json();
   
-      // Filter songs using fuzzy matching on the entire user query
-      const filtered = songs.filter(song => {
+      // Filter for matches on both Title & Artist if provided
+      const filteredSongs = songs.filter((song) => {
         const titleLower = song.title.toLowerCase();
-        return fuzzyMatch(userQuery, titleLower);
+        const artistLower = song.artist.toLowerCase();
+  
+        let titleMatches = true;
+        let artistMatches = true;
+  
+        if (titleQuery) {
+          titleMatches = fuzzyMatch(titleQuery, titleLower);
+        }
+        if (artistQuery) {
+          artistMatches = fuzzyMatch(artistQuery, artistLower);
+        }
+  
+        // Must pass both if both queries are non-empty
+        return titleMatches && artistMatches;
       });
   
-      if (filtered.length === 0) {
+      if (filteredSongs.length === 0) {
         resultsContainer.innerHTML = "<p>No songs found.</p>";
       } else {
         let tableHTML = `
@@ -83,7 +120,7 @@ function levenshteinDistance(a, b) {
             <tbody>
         `;
   
-        filtered.forEach(song => {
+        filteredSongs.forEach((song) => {
           tableHTML += `
             <tr>
               <td class="song-id">${song.song_number}</td>
@@ -102,6 +139,7 @@ function levenshteinDistance(a, b) {
       }
   
     } catch (error) {
+      console.error("Error fetching songs:", error);
       resultsContainer.innerHTML = `<p>Failed to load songs. Error: ${error.message}</p>`;
     }
   }
