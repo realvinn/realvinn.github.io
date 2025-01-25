@@ -313,3 +313,45 @@ footer {
   border-top: 1px solid var(--secondary);
   font-size: 0.9rem;
 }
+
+/* For the table */
+.song-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+/* Table headers */
+.song-table th {
+  background-color: #333; /* or your accent color for dark mode */
+  color: #fff;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+/* Table cells */
+.song-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #444; /* subtle line */
+}
+
+/* Alternate row coloring: even vs. odd rows */
+.song-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+/* Adjust for your light mode if using a theme toggle, e.g.:
+.light-mode .song-table tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+*/
+
+/* Distinct styling for the "song-id" column */
+.song-id {
+  color: #ffecb3; /* Lighter or distinct color for dark mode */
+  font-weight: bold;
+}
+/* If using a .light-mode toggle, override in that context:
+.light-mode .song-id {
+  color: #b35900;
+}
+*/
