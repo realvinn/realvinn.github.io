@@ -13,9 +13,7 @@ body {
   min-height: 100vh;
 }
 
-/* ---------------------------------------
-   Navigation Bar
---------------------------------------- */
+/* Navigation Bar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -40,9 +38,7 @@ body {
   margin-right: 6px;
 }
 
-/* ---------------------------------------
-   Warning Box
---------------------------------------- */
+/* Warning Box */
 .wake-up-warning {
   display: flex;
   align-items: center;
@@ -59,9 +55,7 @@ body {
   stroke: #1a1a1a;
 }
 
-/* ---------------------------------------
-   Keyframe Animations
---------------------------------------- */
+/* Animations */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -82,6 +76,7 @@ body {
     transform: translateY(0);
   }
 }
+
 .fade-in-up {
   opacity: 0;
   animation: fadeInUp 0.8s ease forwards;
@@ -95,16 +90,13 @@ body {
   animation: fadeInUp 0.8s ease forwards;
 }
 
-/* ---------------------------------------
-   Hero Section (Swirl Gradient)
---------------------------------------- */
+/* Hero with swirl background */
 .hero {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 4rem 1rem;
-  /* swirl gradient background */
   background: radial-gradient(
       circle at 20% 40%,
       rgba(255,127,63,0.15),
@@ -137,9 +129,7 @@ body {
   margin-bottom: 2rem;
 }
 
-/* ---------------------------------------
-   Search Bar
---------------------------------------- */
+/* Search Bar */
 .search-bar {
   display: inline-flex;
   flex-wrap: wrap;
@@ -177,26 +167,30 @@ body {
   background-color: #ff6520;
 }
 
-/* ---------------------------------------
-   Results Table
---------------------------------------- */
+/* Results Container */
 #resultsContainer {
   max-width: 700px;
   margin: 0 auto;
   text-align: left;
 }
 
+/* Transparent swirl background on the table itself */
 .song-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
-  background: rgba(255,255,255,0.06); /* transparent table background */
+  background: radial-gradient(
+                circle at 50% 50%,
+                rgba(255,255,255,0.09),
+                rgba(0,0,0,0.1)
+              );
+  backdrop-filter: blur(5px);
   border-radius: 6px;
-  overflow: hidden; /* so corners are clipped if we do radius */
+  overflow: hidden;
 }
 
 .song-table thead {
-  background-color: rgba(51,51,51,0.8); /* slightly transparent too */
+  background-color: rgba(51,51,51,0.8);
   color: #fff;
 }
 
@@ -218,13 +212,11 @@ body {
   font-weight: 600;
 }
 
-/* ---------------------------------------
-   Footer
---------------------------------------- */
+/* Footer */
 footer {
   text-align: center;
   padding: 2rem 1rem;
   color: #777;
-  background-color: #0f0f0f; /* match page background */
+  background-color: #0f0f0f;
   margin-top: 2rem;
 }
