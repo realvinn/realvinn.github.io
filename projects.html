@@ -4,14 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>realvinn - Projects</title>
-  <!-- Include your dark CSS or any shared CSS -->
   <link rel="stylesheet" href="static/style.css" />
-
-  <!-- Script for searching (the updated fuzzy version) -->
   <script src="static/script.js" defer></script>
 </head>
 <body>
-  <!-- Navigation Bar (example) -->
+
+  <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="nav-left">
       <a href="index.html" class="nav-home">
@@ -30,28 +28,20 @@
     </div>
   </nav>
 
-  <!-- Projects or Search Section -->
+  <!-- Song Search Section -->
   <section class="projects-section">
     <h2>Song Search</h2>
-    
-    <!-- Two Textboxes: One for Title, One for Artist -->
-    <div class="search-container">
+
+    <div class="search-bar">
       <label for="searchTitleInput">Title:</label>
-      <input
-        type="text"
-        id="searchTitleInput"
-        placeholder="Search by title..."
-      />
-      
+      <input type="text" id="searchTitleInput" placeholder="Search by title..." />
+
       <label for="searchArtistInput">Artist:</label>
-      <input
-        type="text"
-        id="searchArtistInput"
-        placeholder="Search by artist..."
-      />
+      <input type="text" id="searchArtistInput" placeholder="Search by artist..." />
+
+      <button id="searchButton" onclick="searchSongs()">Search</button>
     </div>
 
-    <!-- Results will be displayed here as a table -->
     <div id="resultsContainer"></div>
   </section>
 
