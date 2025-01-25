@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>realvinn - Projects</title>
-  <!-- Shared CSS -->
+  <!-- Include your dark CSS or any shared CSS -->
   <link rel="stylesheet" href="static/style.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
-    rel="stylesheet"
-  />
-  <!-- Include your search script for the embedded Song Search section -->
+
+  <!-- Script for searching (the updated fuzzy version) -->
   <script src="static/script.js" defer></script>
 </head>
-
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar fade-in-down">
+  <!-- Navigation Bar (example) -->
+  <nav class="navbar">
     <div class="nav-left">
       <a href="index.html" class="nav-home">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -34,39 +30,31 @@
     </div>
   </nav>
 
-  <!-- Projects Section -->
-  <section class="projects-section fade-in">
-    <h2>My Projects</h2>
-    <div class="project-card-container">
-      <!-- Card 1: Song Search -->
-      <div class="project-card">
-        <h3>Song Search</h3>
-        <p>Find songs by title or artist, using Flask & JSON APIs.</p>
-        <a href="#songSearch" class="card-button">Try It Below</a>
-      </div>
-      <!-- Card 2: Another Project Example -->
-      <div class="project-card">
-        <h3>GitHub Page</h3>
-        <p>My other Projects.</p>
-        <a href="https://github.com/realvinn" target="_blank" class="card-button">
-          View on GitHub
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Embedded Song Search Section -->
-  <section id="songSearch" class="song-search-section fade-in">
+  <!-- Projects or Search Section -->
+  <section class="projects-section">
     <h2>Song Search</h2>
-    <p>Search below by song title or artist name.</p>
+    
+    <!-- Two Textboxes: One for Title, One for Artist -->
     <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Type a song or artist..." />
-      <button onclick="searchSongs()">Search</button>
+      <label for="searchTitleInput">Title:</label>
+      <input
+        type="text"
+        id="searchTitleInput"
+        placeholder="Search by title..."
+      />
+      
+      <label for="searchArtistInput">Artist:</label>
+      <input
+        type="text"
+        id="searchArtistInput"
+        placeholder="Search by artist..."
+      />
     </div>
+
+    <!-- Results will be displayed here as a table -->
     <div id="resultsContainer"></div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 realvinn - Powered by GitHub Pages</p>
   </footer>

@@ -1,3 +1,14 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Attach real-time "input" listeners
+    const titleInput = document.getElementById('searchTitleInput');
+    const artistInput = document.getElementById('searchArtistInput');
+    
+    if (titleInput && artistInput) {
+      titleInput.addEventListener('input', searchSongs);
+      artistInput.addEventListener('input', searchSongs);
+    }
+  });
+
 /***************************************************************
  * 1) Fuzzy Matching with Levenshtein Distance
  ***************************************************************/
