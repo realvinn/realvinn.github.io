@@ -2,14 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const titleInput = document.getElementById('searchTitleInput');
   const artistInput = document.getElementById('searchArtistInput');
   const searchButton = document.getElementById('searchButton');
+  
+  let searchTimeout;
 
   if (titleInput && artistInput && searchButton) {
     // Run search on button click
     searchButton.addEventListener('click', searchSongs);
 
-    // Run search as the user types (character-by-character)
-    titleInput.addEventListener('input', searchSongs);
-    artistInput.addEventListener('input', searchSongs);
+    // Debounce input event: Trigger search 3 seconds after typing starts
+    const debounceSearch = () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchSongs();
+      }, 3000);
+    };
+
+    titleInput.addEventListener('input', debounceSearch);
+    artistInput.addEventListener('input', debounceSearch);
   }
 });
 
@@ -39,7 +48,7 @@ function levenshteinDistance(a, b) {
 // Fuzzy match with threshold
 function fuzzyMatch(query, text) {
   const distance = levenshteinDistance(query, text);
-  const threshold = 2;
+  const threshold = 2;  // Adjust threshold for typo tolerance
   return distance <= threshold || text.includes(query);
 }
 
