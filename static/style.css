@@ -1,22 +1,21 @@
-/* ---------------------------------------------------
-   Global & Body
---------------------------------------------------- */
+/* Basic Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Body */
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #0f0f0f; /* Dark background */
+  background-color: #0f0f0f;
   color: #fff;
-  overflow-x: hidden; /* No horizontal scroll bars */
+  min-height: 100vh;
 }
 
-/* ---------------------------------------------------
-   Navigation
---------------------------------------------------- */
+/* ---------------------------------------
+   Navigation Bar
+--------------------------------------- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -25,25 +24,44 @@ body {
   padding: 1rem 2rem;
 }
 
-.nav-left,
-.nav-center {
+.nav-left, .nav-center {
   display: flex;
   align-items: center;
 }
 
-.nav-link,
-.nav-home {
+.nav-home,
+.nav-link {
   color: #fff;
   text-decoration: none;
   margin-right: 1.5rem;
-  font-weight: 600;
 }
 
 .home-icon {
   margin-right: 6px;
 }
 
-/* Fade In Animations */
+/* ---------------------------------------
+   Warning Box
+--------------------------------------- */
+.wake-up-warning {
+  display: flex;
+  align-items: center;
+  background-color: #ff7f3f;
+  color: #1a1a1a;
+  padding: 1rem 2rem;
+  margin: 1.5rem auto;
+  max-width: 700px;
+  border-radius: 8px;
+  gap: 0.8rem;
+}
+
+.warning-icon svg {
+  stroke: #1a1a1a;
+}
+
+/* ---------------------------------------
+   Keyframe Animations
+--------------------------------------- */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -54,7 +72,6 @@ body {
     transform: translateY(0);
   }
 }
-
 @keyframes fadeInDown {
   0% {
     opacity: 0;
@@ -65,32 +82,29 @@ body {
     transform: translateY(0);
   }
 }
-
 .fade-in-up {
+  opacity: 0;
   animation: fadeInUp 0.8s ease forwards;
-  opacity: 0;
 }
-
 .fade-in-down {
-  animation: fadeInDown 0.8s ease forwards;
   opacity: 0;
+  animation: fadeInDown 0.8s ease forwards;
 }
-
 .fade-in {
   opacity: 0;
   animation: fadeInUp 0.8s ease forwards;
 }
 
-/* ---------------------------------------------------
-   Hero Section with swirl gradient
---------------------------------------------------- */
+/* ---------------------------------------
+   Hero Section (Swirl Gradient)
+--------------------------------------- */
 .hero {
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 70vh;
+  justify-content: center;
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 4rem 1rem;
+  /* swirl gradient background */
   background: radial-gradient(
       circle at 20% 40%,
       rgba(255,127,63,0.15),
@@ -102,15 +116,16 @@ body {
       transparent 50%
     ),
     linear-gradient(135deg, #2f2f2f, #151515);
+  min-height: 70vh;
 }
 
 .hero-content {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
 .hero-content h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
@@ -119,60 +134,36 @@ body {
   font-size: 1.2rem;
   font-weight: 300;
   color: #ccc;
-}
-
-/* ---------------------------------------------------
-   Orange Warning Box
---------------------------------------------------- */
-.wake-up-warning {
-  display: flex;
-  align-items: center;
-  background-color: #ff7f3f;
-  color: #1a1a1a;
-  padding: 1rem 2rem;
-  margin: 2rem auto;
-  max-width: 600px;
-  border-radius: 8px;
-  gap: 1rem;
-}
-
-.warning-icon svg {
-  stroke: #1a1a1a;
-}
-
-/* ---------------------------------------------------
-   Search Section
---------------------------------------------------- */
-.search-section {
-  padding: 3rem 2rem;
-  text-align: center;
-}
-
-.search-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-}
-
-.search-container {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.search-container input {
+/* ---------------------------------------
+   Search Bar
+--------------------------------------- */
+.search-bar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.search-bar label {
+  font-weight: 600;
+}
+
+.search-bar input {
   padding: 0.6rem 1rem;
   font-size: 1rem;
   border: 1px solid #555;
   border-radius: 4px;
   background-color: #222;
   color: #fff;
-  width: 250px;
 }
 
-.search-container button {
-  padding: 0.6rem 1.5rem;
+.search-bar button {
+  padding: 0.6rem 1.2rem;
   background-color: #ff7f3f;
   color: #fff;
   border: none;
@@ -182,13 +173,13 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.search-container button:hover {
+.search-bar button:hover {
   background-color: #ff6520;
 }
 
-/* ---------------------------------------------------
+/* ---------------------------------------
    Results Table
---------------------------------------------------- */
+--------------------------------------- */
 #resultsContainer {
   max-width: 700px;
   margin: 0 auto;
@@ -199,17 +190,21 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  background: rgba(255,255,255,0.06); /* transparent table background */
+  border-radius: 6px;
+  overflow: hidden; /* so corners are clipped if we do radius */
 }
 
 .song-table thead {
-  background-color: #333;
+  background-color: rgba(51,51,51,0.8); /* slightly transparent too */
   color: #fff;
 }
 
-.song-table th, .song-table td {
+.song-table th,
+.song-table td {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #444;
   text-align: left;
+  border-bottom: 1px solid rgba(68,68,68,0.6);
 }
 
 /* Alternate row coloring */
@@ -223,13 +218,13 @@ body {
   font-weight: 600;
 }
 
-/* ---------------------------------------------------
+/* ---------------------------------------
    Footer
---------------------------------------------------- */
+--------------------------------------- */
 footer {
   text-align: center;
   padding: 2rem 1rem;
-  background-color: #0f0f0f;
   color: #777;
-  margin-top: 3rem;
+  background-color: #0f0f0f; /* match page background */
+  margin-top: 2rem;
 }

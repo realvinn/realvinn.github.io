@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>realvinn - Projects</title>
 
-  <!-- Link to your CSS and JS -->
+  <!-- Link to your CSS -->
   <link rel="stylesheet" href="static/style.css" />
+
+  <!-- Script for fuzzy search logic -->
   <script src="static/script.js" defer></script>
 </head>
 <body>
@@ -31,18 +33,15 @@
     </div>
   </nav>
 
-  <!-- Orange Warning Box about first-time spin-up -->
+  <!-- Warning Box about first-time spin-up -->
   <div class="wake-up-warning fade-in">
     <div class="warning-icon">
-      <!-- Exclamation in a circle icon -->
+      <!-- Exclamation in a circle -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24" height="24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"
       >
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -54,22 +53,27 @@
     </p>
   </div>
 
-  <!-- Song Search Section -->
-  <section class="projects-section fade-in-up">
-    <h2>Song Search</h2>
+  <!-- Hero / Song Search Section -->
+  <section class="hero fade-in-up">
+    <div class="hero-content">
+      <h1>Song Search</h1>
+      <p>Find your favorite tracks — even with minor typos!</p>
 
-    <div class="search-bar">
-      <label for="searchTitleInput">Title:</label>
-      <input type="text" id="searchTitleInput" placeholder="Search by title..." />
+      <div class="search-bar">
+        <label for="searchTitleInput">Title:</label>
+        <input type="text" id="searchTitleInput" placeholder="Search by title..." />
 
-      <label for="searchArtistInput">Artist:</label>
-      <input type="text" id="searchArtistInput" placeholder="Search by artist..." />
+        <label for="searchArtistInput">Artist:</label>
+        <input type="text" id="searchArtistInput" placeholder="Search by artist..." />
 
-      <button id="searchButton">Search</button>
-      <button id="clearButton">Clear</button>
+        <!-- The two buttons -->
+        <button id="searchButton">Search</button>
+        <button id="clearButton">Clear</button>
+      </div>
+
+      <!-- Results Table goes here -->
+      <div id="resultsContainer"></div>
     </div>
-
-    <div id="resultsContainer"></div>
   </section>
 
   <footer>
