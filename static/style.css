@@ -1,72 +1,200 @@
-/* General body styling */
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #0f0f0f;
-  color: #fff;
-  padding: 20px;
+/* ---------------------------------------------------
+   Global & Body
+--------------------------------------------------- */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Navigation Bar */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0f0f0f; /* Dark background */
+  color: #fff;
+  overflow-x: hidden; /* No horizontal scroll bars */
+}
+
+/* ---------------------------------------------------
+   Navigation
+--------------------------------------------------- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
   background-color: #1a1a1a;
+  padding: 1rem 2rem;
 }
 
-.nav-link, .nav-home {
+.nav-left,
+.nav-center {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link,
+.nav-home {
   color: #fff;
   text-decoration: none;
   margin-right: 1.5rem;
+  font-weight: 600;
 }
 
-.nav-icon {
-  width: 24px;
-  height: 24px;
+.home-icon {
+  margin-right: 6px;
 }
 
-/* Search Bar Layout */
-.search-bar {
+/* Fade In Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease forwards;
+  opacity: 0;
+}
+
+.fade-in-down {
+  animation: fadeInDown 0.8s ease forwards;
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+/* ---------------------------------------------------
+   Hero Section with swirl gradient
+--------------------------------------------------- */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  text-align: center;
+  padding: 3rem 1rem;
+  background: radial-gradient(
+      circle at 20% 40%,
+      rgba(255,127,63,0.15),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 60%,
+      rgba(255,127,63,0.15),
+      transparent 50%
+    ),
+    linear-gradient(135deg, #2f2f2f, #151515);
+}
+
+.hero-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #ccc;
+}
+
+/* ---------------------------------------------------
+   Orange Warning Box
+--------------------------------------------------- */
+.wake-up-warning {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: nowrap;
-  justify-content: center;
-  padding: 20px;
-  max-width: 100%;
-  overflow-x: auto;
+  background-color: #ff7f3f;
+  color: #1a1a1a;
+  padding: 1rem 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  border-radius: 8px;
+  gap: 1rem;
 }
 
-/* Style for the search inputs and button */
-.search-bar input {
-  padding: 10px;
+.warning-icon svg {
+  stroke: #1a1a1a;
+}
+
+/* ---------------------------------------------------
+   Search Section
+--------------------------------------------------- */
+.search-section {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.search-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.search-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.search-container input {
+  padding: 0.6rem 1rem;
   font-size: 1rem;
   border: 1px solid #555;
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: #222;
   color: #fff;
-  width: 200px;
-  max-width: 100%;
+  width: 250px;
 }
 
-.search-bar button {
-  padding: 10px 20px;
-  font-size: 1rem;
+.search-container button {
+  padding: 0.6rem 1.5rem;
   background-color: #ff7f3f;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: 0.3s ease;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
-.search-bar button:hover {
+.search-container button:hover {
   background-color: #ff6520;
 }
 
-/* Zebra-striped results table */
+/* ---------------------------------------------------
+   Results Table
+--------------------------------------------------- */
+#resultsContainer {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: left;
+}
+
 .song-table {
   width: 100%;
   border-collapse: collapse;
@@ -78,11 +206,10 @@ body {
   color: #fff;
 }
 
-.song-table th,
-.song-table td {
+.song-table th, .song-table td {
   padding: 0.75rem 1rem;
-  text-align: left;
   border-bottom: 1px solid #444;
+  text-align: left;
 }
 
 /* Alternate row coloring */
@@ -93,18 +220,16 @@ body {
 /* Song ID column styling */
 .song-id {
   color: #ffecb3;
-  font-weight: bold;
+  font-weight: 600;
 }
 
-/* Responsive: Ensures search bar stays in one line */
-@media (max-width: 600px) {
-  .search-bar {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .search-bar input {
-    width: 150px;
-  }
+/* ---------------------------------------------------
+   Footer
+--------------------------------------------------- */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  background-color: #0f0f0f;
+  color: #777;
+  margin-top: 3rem;
 }
