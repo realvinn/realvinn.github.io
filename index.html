@@ -4,52 +4,79 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>realvinn - Home</title>
-  <!-- Shared CSS -->
   <link rel="stylesheet" href="static/style.css" />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
     rel="stylesheet"
   />
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const boxes = document.querySelectorAll(".content-box");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+      
+      boxes.forEach((box) => {
+        observer.observe(box);
+      });
+    });
+  </script>
 </head>
-
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar fade-in-down">
+  <nav class="navbar">
     <div class="nav-left">
-      <!-- Logo or Home Icon leading to index.html -->
-      <a href="index.html" class="nav-home">
-        <!-- Simple "house" icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round" class="home-icon">
-          <path d="M3 9.5l9-7 9 7v11.5a2 2 0 0 1-2 2h-2a2 
-                   2 0 0 1-2-2v-4h-4v4a2 2 0 0 1-2 2H5a2
-                   2 0 0 1-2-2z"></path>
-        </svg>
-      </a>
+      <a href="index.html" class="nav-home">Home</a>
     </div>
     <div class="nav-center">
-      <!-- Minimal text nav, reminiscent of reflect -->
       <a href="projects.html" class="nav-link">Projects</a>
       <a href="contact.html" class="nav-link">Contact</a>
     </div>
   </nav>
 
-  <!-- Hero / Introduction Section -->
-  <!-- Large, center-aligned, minimal text, big heading, swirling gradient background -->
-  <section class="hero fade-in-up">
+  <section class="hero">
     <div class="hero-content">
       <h1>Welcome to my World of Ideas</h1>
       <p>I'm The Vinh, I am an RMIT Student making apps for fun.</p>
-      </button>
     </div>
   </section>
 
-  <!-- Possibly add a short "Features" or "About" chunk if you want, but keep it minimal for that reflect feel -->
+  <section class="content-boxes">
+    <div class="content-box-container">
+      <div class="content-box" style="background: url('https://github.com/realvinn/realvinn.github.io/blob/main/images/Song%20Search.png?raw=true') center/cover no-repeat; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;
+        background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.3) 95%);"></div>
+      </div>
+      <div class="content-text">
+        <h3>Song Search</h3>
+        <p>An advanced song searcher for TJ Media's 355HK 360CK 365HK because I got tired of the TJ app and the big book they have. Made with 6000 scalped pages from TJ Media Song DB</p>
+      </div>
+    </div>
+      <div class="content-box-container">
+      <div class="content-text">
+        <h3>Manhwa Scroller</h3>
+        <p>Automatically scroll using Window's Auto-Scroll feature. Because I envy the people who read on their phones with such effortless scrolling. Now it's our turn. <strong><br>VERSION 0.2 JUST DROPPED 🥳🥳🎉</strong></p>
+      </div>
+      <div class="content-box" style="background: url('https://github.com/realvinn/realvinn.github.io/blob/main/images/Manhwa%20Scroller.png?raw=true') center/cover no-repeat; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;
+        background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.3) 95%);"></div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Footer -->
-  <footer>
+<footer class="footer">
     <p>© 2025 realvinn - Powered by GitHub Pages</p>
+    <div class="footer-icons">
+      <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i></a>
+    </div>
   </footer>
 </body>
 </html>
