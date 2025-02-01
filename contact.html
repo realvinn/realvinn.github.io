@@ -4,27 +4,100 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>realvinn - Contact</title>
-  <!-- Shared CSS -->
   <link rel="stylesheet" href="static/style.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    /* Ensure hero section is centered */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1rem;
+      background: radial-gradient(circle at 20% 40%, rgba(255,127,63,0.15), transparent 50%),
+                  radial-gradient(circle at 80% 60%, rgba(255,127,63,0.15), transparent 50%),
+                  linear-gradient(135deg, #2f2f2f, #151515);
+      min-height: 70vh;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 700px;
+      margin-bottom: 2rem;
+    }
+
+    /* Icons Box Container */
+    .icon-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    /* Square Box Around Icons */
+    .icon-box {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(30, 30, 30, 0.9);
+      border: 3px solid #ff7f3f;
+      border-radius: 12px;
+      box-shadow: 0px 0px 15px rgba(255,127,63,0.5);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      text-decoration: none; /* Remove underline */
+    }
+
+    .icon-box:hover {
+      transform: scale(1.1);
+      box-shadow: 0px 0px 20px rgba(255,127,63,0.8);
+    }
+
+    /* FontAwesome Icon Styling */
+    .icon-box i {
+      font-size: 40px;
+      color: white;
+    }
+
+    /* Remove default hyperlink underline */
+    .icon-box:link,
+    .icon-box:visited {
+      text-decoration: none;
+      outline: none;
+    }
+
+    /* Footer Styling */
+    footer {
+      background: #111;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-icons a {
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+    }
+
+  </style>
 </head>
 
 <body>
   <!-- Navigation Bar -->
-  <nav class="navbar fade-in-down">
+  <nav class="navbar">
     <div class="nav-left">
-      <a href="index.html" class="nav-home">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round" class="home-icon">
-          <path d="M3 9.5l9-7 9 7v11.5a2 2 0 0 1-2 2h-2a2 
-                   2 0 0 1-2-2v-4h-4v4a2 2 0 0 1-2 2H5a2
-                   2 0 0 1-2-2z"></path>
-        </svg>
-      </a>
+      <a href="index.html" class="nav-home">Home</a>
     </div>
     <div class="nav-center">
       <a href="projects.html" class="nav-link">Projects</a>
@@ -32,19 +105,35 @@
     </div>
   </nav>
 
-  <!-- Contact Info Section -->
-  <section class="contact-section fade-in">
-    <h2>Get in Touch</h2>
-    <p>Questions or collaboration proposals? Reach out via:</p>
-    <p>
-      <a href="https://www.linkedin.com/in/the-vinh-nguyen-72a9872a2/" target="_blank">LinkedIn</a> or 
-      <a href="https://github.com/realvinn" target="_blank">GitHub</a>.
-    </p>
+  <!-- Hero Section with Icons -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Get in Touch</h1>
+      <p>Let's connect! Reach out via any of the platforms below.</p>
+    </div>
+
+    <!-- Social Media Icons in Square Boxes -->
+    <div class="icon-container">
+      <a href="https://github.com/realvinn" target="_blank" class="icon-box">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/the-vinh-nguyen-72a9872a2/" target="_blank" class="icon-box">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://discord.com/invite/BYXYgWsDz6" target="_blank" class="icon-box">
+        <i class="fab fa-discord"></i>
+      </a>
+    </div>
   </section>
 
   <!-- Footer -->
   <footer>
     <p>© 2025 realvinn - Powered by GitHub Pages</p>
+    <div class="footer-icons">
+      <a href="https://github.com/realvinn" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/the-vinh-nguyen-72a9872a2/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://discord.com/invite/BYXYgWsDz6" target="_blank"><i class="fab fa-discord"></i></a>
+    </div>
   </footer>
 </body>
 </html>
