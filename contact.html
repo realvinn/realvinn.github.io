@@ -11,15 +11,17 @@
 
 <body>
   <!-- Navigation Bar -->
-  <nav class="navbar">
+  <nav class="navbar fade-in-down">
     <div class="nav-left">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+      <a href="/" class="nav-home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="home-icon">
           <path d="M3 9.5l9-7 9 7v11.5a2 2 0 0 1-2 2h-2a2 
                    2 0 0 1-2-2v-4h-4v4a2 2 0 0 1-2 2H5a2
                    2 0 0 1-2-2z"></path>
         </svg>
+      </a>
     </div>
     <div class="nav-center">
       <a href="projects.html" class="nav-link">Projects</a>
@@ -30,12 +32,12 @@
   <!-- Hero Section with Icons -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Get in Touch</h1>
-      <p>Let's connect! Reach out via any of the platforms below.</p>
+      <h1 class="fade-in-up" style="animation-delay: 0.1s">Get in Touch</h1>
+      <p class="fade-in-up" style="animation-delay: 0.2s">Let's connect! Reach out via any of the platforms below.</p>
     </div>
 
     <!-- Social Media Icons in Square Boxes -->
-    <div class="icon-container">
+    <div class="icon-container fade-in-up" style="animation-delay: 0.3s">
       <a href="https://github.com/realvinn" target="_blank" class="icon-box">
         <i class="fab fa-github"></i>
       </a>
@@ -45,6 +47,12 @@
       <a href="https://discord.com/invite/BYXYgWsDz6" target="_blank" class="icon-box">
         <i class="fab fa-discord"></i>
       </a>
+    </div>
+
+    <!-- Email Contact -->
+    <div class="email-contact fade-in-up" style="animation-delay: 0.5s">
+      <h2>Email me directly</h2>
+      <a href="mailto:contact@thevinh.site" class="email-link">contact@thevinh.site</a>
     </div>
   </section>
 
@@ -57,5 +65,24 @@
       <a href="https://discord.com/invite/BYXYgWsDz6" target="_blank"><i class="fab fa-discord"></i></a>
     </div>
   </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Scroll-triggered animations
+      const animateElements = document.querySelectorAll('[data-animate]');
+      const animObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animated');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      animateElements.forEach(el => animObserver.observe(el));
+    });
+  </script>
 </body>
 </html>

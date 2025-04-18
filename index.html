@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>realvinn - Home</title>
   <link rel="stylesheet" href="static/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
     rel="stylesheet"
   />
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      // Animate content boxes
       const boxes = document.querySelectorAll(".content-box");
-      const observer = new IntersectionObserver(
+      const boxObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -24,22 +26,38 @@
       );
       
       boxes.forEach((box) => {
-        observer.observe(box);
+        boxObserver.observe(box);
       });
+
+      // Scroll-triggered animations
+      const animateElements = document.querySelectorAll('[data-animate]');
+      const animObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animated');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      animateElements.forEach(el => animObserver.observe(el));
     });
   </script>
 </head>
 <body>
-  <nav class="navbar">
+  <nav class="navbar fade-in-down">
     <div class="nav-left">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+      <a href="/" class="nav-home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="home-icon">
           <path d="M3 9.5l9-7 9 7v11.5a2 2 0 0 1-2 2h-2a2 
                    2 0 0 1-2-2v-4h-4v4a2 2 0 0 1-2 2H5a2
                    2 0 0 1-2-2z"></path>
         </svg>
-    </a>
+      </a>
     </div>
     <div class="nav-center">
       <a href="projects.html" class="nav-link">Projects</a>
@@ -49,8 +67,20 @@
 
   <section class="hero">
     <div class="hero-content">
-      <h1>Welcome to my World of Ideas</h1>
-      <p>I'm The Vinh, I am an RMIT Student making apps for fun.</p>
+      <h1 class="fade-in-up" style="animation-delay: 0.1s">Welcome to my World of Ideas</h1>
+      <p class="fade-in-up" style="animation-delay: 0.3s">I'm The Vinh, a passionate developer and RMIT student creating innovative software solutions.</p>
+      <div class="bio-details fade-in-up" style="animation-delay: 0.5s">
+        <p>🎓 Studying Computer Science at RMIT University</p>
+        <p>💻 Currently Studying:</p>
+        <ul class="skills-list">
+          <li>Java</li>
+          <li>Python</li>
+          <li>React</li>
+          <li>JavaScript</li>
+          <li>Flask</li>
+          <li>Agentic AI</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -75,9 +105,29 @@
         background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.3) 95%);"></div>
       </div>
     </div>
+    <div class="content-box-container">
+      <div class="content-box" style="background: url('https://github.com/realvinn/realvinn.github.io/blob/main/images/Nova%20Software.png?raw=true') center/cover no-repeat; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;
+        background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.3) 95%);"></div>
+      </div>
+      <div class="content-text">
+        <h3>Nova Software</h3>
+        <p>A software development company I founded to create innovative solutions. Currently working on several projects including the Manhwa Scroller and Song Search apps.</p>
+      </div>
+    </div>
+    <div class="content-box-container">
+      <div class="content-text">
+        <h3>Robotic Exploration Simulation</h3>
+        <p>A simulation project exploring robotic pathfinding and exploration algorithms in unknown environments.</p>
+      </div>
+      <div class="content-box" style="background: url('https://github.com/realvinn/realvinn.github.io/blob/main/images/Robotic%20Exploration%20Simulation.png?raw=true') center/cover no-repeat; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;
+        background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.3) 95%);"></div>
+      </div>
+    </div>
   </section>
 
-<footer class="footer">
+  <footer>
     <p>© 2025 realvinn - Powered by GitHub Pages</p>
     <div class="footer-icons">
       <a href="https://github.com/realvinn" target="_blank"><i class="fab fa-github"></i></a>
