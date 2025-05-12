@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduling Grid Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8a2be2;
+            --secondary-color: #4a148c;
+            --accent-color: #9c27b0;
+            --selected-color: #4caf50;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden; /* Keep this to prevent body horizontal scroll if not intended */
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 80% 20%, rgba(76, 175, 80, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 40% 80%, rgba(156, 39, 176, 0.1) 0%, transparent 30%);
+            z-index: -1;
+        }
+        
+        .shape-1, .shape-2, .shape-3 {
+            position: absolute;
+            z-index: -1;
+            filter: blur(60px);
+        }
+        .shape-1 {
+            width: 200px; height: 200px; border-radius: 50%;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(74, 20, 140, 0.1));
+            top: 10%; left: 10%; animation: float 15s infinite alternate ease-in-out;
+        }
+        .shape-2 {
+            width: 300px; height: 300px; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: linear-gradient(225deg, rgba(156, 39, 176, 0.1), rgba(74, 20, 140, 0.1));
+            top: 60%; right: 5%; animation: float 20s infinite alternate-reverse ease-in-out;
+        }
+        .shape-3 {
+            width: 150px; height: 150px; border-radius: 30% 70% 50% 50% / 50%;
+            background: linear-gradient(45deg, rgba(76, 175, 80, 0.1), rgba(138, 43, 226, 0.1));
+            bottom: 10%; left: 20%; filter: blur(40px); animation: float 25s infinite alternate ease-in-out;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(20px, 20px) rotate(10deg); }
+        }
+        
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+            padding: 8px 16px; color: white; font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s;
+        }
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.2); box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .glass-input {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+            color: white; padding: 10px 16px;
+        }
+        .glass-input:focus {
+            outline: none; border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.3);
+        }
+        
+        .toggle-switch { position: relative; display: inline-block; width: 60px; height: 34px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1); transition: .4s;
+            border-radius: 34px; border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .toggle-slider:before {
+            position: absolute; content: ""; height: 26px; width: 26px;
+            left: 4px; bottom: 3px; background-color: white;
+            transition: .4s; border-radius: 50%;
+        }
+        input:checked + .toggle-slider { background-color: var(--accent-color); }
+        input:checked + .toggle-slider:before { transform: translateX(26px); }
+        
+        .grid-cell {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.2s;
+            cursor: pointer;
+            text-align: center;
+            height: 50px; 
+            width: 75px;  
+            position: relative; 
+            font-size: 0.8rem; 
+            padding: 2px; 
+            box-sizing: border-box; 
+        }
+        .grid-cell:hover { background-color: rgba(255, 255, 255, 0.05); }
+        .grid-cell.selected {
+            background-color: rgba(76, 175, 80, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.8);
+        }
+        
+        .grid-header { /* For Time column headers */
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: bold;
+            height: 55px; 
+            font-size: 0.75rem; 
+            min-width: 70px; 
+            position: relative; 
+            padding: 2px;
+            box-sizing: border-box;
+        }
+        
+        .day-header { /* For Day row/column headers */
+            background: rgba(255, 255, 255, 0.05); 
+            font-weight: bold;
+            font-size: 0.8rem; 
+            white-space: nowrap; 
+        }
+        
+        #layoutToggleContainer { display: flex; align-items: center; margin-bottom: 20px; }
+        
+        .tab {
+            padding: 10px 15px; margin-right: 4px;
+            border-radius: 8px 8px 0 0; background: rgba(255, 255, 255, 0.05);
+            cursor: pointer; transition: all 0.3s; font-size: 0.9rem;
+        }
+        .tab.active {
+            background: rgba(138, 43, 226, 0.2);
+            border-bottom: 2px solid var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .tab-content { display: none; padding: 15px; border-radius: 0 0 8px 8px; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .ampm-indicator {
+            color: rgba(255, 255, 255, 0.7); 
+            font-size: 0.65rem; 
+            position: absolute;
+            bottom: 2px; 
+            left: 0; right: 0;
+            text-align: center;
+        }
+        
+        .time-display { /* Parent for time-value and ampm-indicator */
+            position: relative; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; 
+            height: 100%; 
+            line-height: 1.2;
+        }
+        
+        .time-value {
+            font-weight: 500; 
+            margin-bottom: 0px; 
+        }
+
+        /* Custom Scrollbar Styling */
+        /* WebKit-based browsers (Chrome, Edge, Safari, Opera) */
+        ::-webkit-scrollbar {
+            width: 12px;  /* Width of vertical scrollbar */
+            height: 12px; /* Height of horizontal scrollbar */
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.3); /* A slightly more transparent version of glass-bg */
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color); 
+            border-radius: 10px;
+            border: 2px solid rgba(15, 23, 42, 0.3); 
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color); 
+        }
+
+        ::-webkit-scrollbar-corner { /* Corner piece when both scrollbars are visible */
+            background: rgba(15, 23, 42, 0.1);
+        }
+
+        /* Firefox scrollbar styling */
+        /* Apply to elements that will have scrollbars */
+        body { /* For the main page scrollbar, if needed */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) rgba(15, 23, 42, 0.3); /* thumb track */
+        }
+        
+        #gridLayout { /* For the grid's horizontal scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) rgba(15, 23, 42, 0.3); /* thumb track */
+        }
+
+        #tabLayout .tabs { /* For the horizontal tab scroller */
+             scrollbar-width: thin;
+             scrollbar-color: var(--accent-color) rgba(15, 23, 42, 0.2); /* thumb track, using accent color */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="shape-1"></div>
+    <div class="shape-2"></div>
+    <div class="shape-3"></div>
+
+    <div class="container mx-auto p-4 pb-20">
+        <div id="mainContent">
+            <div class="glass-panel p-6 mb-6">
+                <h1 class="text-3xl font-bold mb-6 text-center text-white">Scheduling Grid</h1>
+                <div class="mb-6">
+                    <label for="nameInput" class="block mb-2 font-medium">Your Name:</label>
+                    <input type="text" id="nameInput" class="glass-input w-full" placeholder="Enter your name...">
+                </div>
+                
+                <div id="layoutToggleContainer" class="flex justify-between items-center">
+                    <span>Grid View</span>
+                    <label class="toggle-switch mx-4">
+                        <input type="checkbox" id="layoutToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span>Tab View</span>
+                </div>
+                
+                <!-- Grid Layout -->
+                <div id="gridLayout" class="overflow-auto"> <!-- overflow-auto is key for scrollbars to appear -->
+                    <table class="border-collapse w-full">
+                        <thead>
+                            <tr>
+                                <th class="day-header p-2"></th> 
+                                <!-- Time headers will be inserted here by JavaScript -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Day rows will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Tab Layout -->
+                <div id="tabLayout" class="hidden">
+                    <div class="tabs flex overflow-x-auto pb-2"> <!-- overflow-x-auto for horizontal tab scroll -->
+                        <!-- Day tabs will be inserted here by JavaScript -->
+                    </div>
+                    <div class="tab-content-container glass-panel">
+                        <!-- Tab content will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <button id="exportBtn" class="glass-button w-full mb-4">Export Selected Times</button>
+                    <textarea id="exportOutput" class="glass-input w-full h-32" readonly></textarea>
+                    <button id="copyBtn" class="glass-button w-full mt-2">
+                        <i class="fas fa-copy mr-2"></i>Copy to Clipboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        const fullDayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        
+        const times = [];
+        for (let hour = 6; hour <= 22; hour++) {
+            times.push(`${hour}:00`);
+            if (hour < 22) {
+                times.push(`${hour}:30`);
+            }
+        }
+        
+        function to12HourFormat(time24) {
+            const [hour, minute] = time24.split(':');
+            const hourNum = parseInt(hour, 10);
+            const suffix = hourNum >= 12 ? 'PM' : 'AM';
+            const hour12 = hourNum === 0 ? 12 : (hourNum > 12 ? hourNum - 12 : hourNum);
+            return { time: `${hour12}:${minute}`, suffix };
+        }
+        
+        const selectedSlots = {};
+        let isDragging = false;
+        let isSelecting = false; 
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            setupSchedulingGrid();
+        });
+        
+        function setupSchedulingGrid() {
+            setupGridView();
+            setupTabView();
+            
+            const layoutToggle = document.getElementById('layoutToggle');
+            const gridLayout = document.getElementById('gridLayout');
+            const tabLayout = document.getElementById('tabLayout');
+            
+            layoutToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    gridLayout.classList.add('hidden');
+                    tabLayout.classList.remove('hidden');
+                } else {
+                    tabLayout.classList.add('hidden');
+                    gridLayout.classList.remove('hidden');
+                }
+            });
+            
+            document.getElementById('exportBtn').addEventListener('click', exportSelectedTimes);
+            
+            document.getElementById('copyBtn').addEventListener('click', function() {
+                const exportOutput = document.getElementById('exportOutput');
+                exportOutput.select();
+                try {
+                    document.execCommand('copy'); 
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+                    setTimeout(() => { this.innerHTML = originalText; }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy. Please copy manually.');
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                if (isDragging) isDragging = false;
+            });
+
+            days.forEach(day => selectedSlots[day] = []);
+        }
+
+        function setCellSelectedState(day, time, select) {
+            const gridCellSelector = `#gridLayout td[data-day="${day}"][data-time="${time}"]`;
+            const tabCellSelector = `#tabLayout .grid-cell[data-day="${day}"][data-time="${time}"]`;
+            const gridCell = document.querySelector(gridCellSelector);
+            const tabCell = document.querySelector(tabCellSelector);
+
+            if (gridCell) gridCell.classList.toggle('selected', select);
+            if (tabCell) tabCell.classList.toggle('selected', select);
+        }
+
+        function updateSelectedSlots() {
+            days.forEach(day => selectedSlots[day] = []);
+            const selectedCells = document.querySelectorAll('.grid-cell.selected');
+            selectedCells.forEach(cell => {
+                const day = cell.dataset.day;
+                const time = cell.dataset.time;
+                if (selectedSlots[day] && !selectedSlots[day].includes(time)) {
+                    selectedSlots[day].push(time);
+                }
+            });
+            days.forEach(day => {
+                if (selectedSlots[day]) {
+                    selectedSlots[day].sort((a, b) => {
+                        const [hA, mA] = a.split(':').map(Number);
+                        const [hB, mB] = b.split(':').map(Number);
+                        if (hA !== hB) return hA - hB;
+                        return mA - mB;
+                    });
+                }
+            });
+        }
+        
+        function setupGridView() {
+            const tableHead = document.querySelector('#gridLayout table thead tr');
+            const tableBody = document.querySelector('#gridLayout table tbody');
+            
+            // Ensure the first header cell (sticky corner) is styled
+            let firstHeaderCell = tableHead.querySelector('th.day-header');
+            if (!firstHeaderCell) { // If it's not there (e.g. from a previous clear), recreate
+                tableHead.innerHTML = '<th class="day-header p-2"></th>'; // Add it back
+                firstHeaderCell = tableHead.querySelector('th.day-header');
+            }
+            firstHeaderCell.className = 'day-header p-2 sticky left-0 z-10';
+            firstHeaderCell.style.background = 'var(--glass-bg)';
+           
+            // Clear only time headers, keep the first sticky day header cell
+            const timeHeaders = tableHead.querySelectorAll('th:not(:first-child)');
+            timeHeaders.forEach(th => th.remove());
+            tableBody.innerHTML = '';
+
+
+            times.forEach(time24 => {
+                const { time: time12, suffix } = to12HourFormat(time24);
+                const th = document.createElement('th');
+                th.className = 'grid-header p-2'; 
+                th.innerHTML = `
+                    <div class="time-display">
+                        <span class="time-value">${time12}</span> 
+                        <span class="ampm-indicator">${suffix}</span>
+                    </div>`;
+                tableHead.appendChild(th);
+            });
+            
+            days.forEach((day, dayIndex) => {
+                const tr = document.createElement('tr');
+                const th = document.createElement('th'); // Day Name Header (Sticky)
+                th.className = 'day-header p-2 sticky left-0 z-10'; 
+                th.style.background = 'var(--glass-bg)'; 
+                th.textContent = fullDayNames[dayIndex];
+                tr.appendChild(th);
+                
+                times.forEach(time24 => {
+                    const td = document.createElement('td');
+                    td.className = 'grid-cell';
+                    td.dataset.day = day;
+                    td.dataset.time = time24;
+                    
+                    td.addEventListener('mousedown', function(e) {
+                        e.preventDefault(); isDragging = true;
+                        isSelecting = !this.classList.contains('selected');
+                        setCellSelectedState(this.dataset.day, this.dataset.time, isSelecting);
+                        updateSelectedSlots();
+                    });
+                    td.addEventListener('mouseover', function() {
+                        if (isDragging) {
+                            setCellSelectedState(this.dataset.day, this.dataset.time, isSelecting);
+                            updateSelectedSlots();
+                        }
+                    });
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+        
+        function setupTabView() {
+            const tabsContainer = document.querySelector('#tabLayout .tabs');
+            const tabContentContainer = document.querySelector('#tabLayout .tab-content-container');
+            tabsContainer.innerHTML = ''; tabContentContainer.innerHTML = '';
+            
+            days.forEach((day, index) => {
+                const tab = document.createElement('div');
+                tab.className = `tab ${index === 0 ? 'active' : ''}`;
+                tab.textContent = fullDayNames[index]; tab.dataset.day = day;
+                tabsContainer.appendChild(tab);
+                
+                const tabContent = document.createElement('div');
+                tabContent.className = `tab-content ${index === 0 ? 'active' : ''}`;
+                tabContent.dataset.day = day;
+                
+                const timeGrid = document.createElement('div');
+                timeGrid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2';
+                
+                times.forEach(time24 => {
+                    const { time: time12, suffix } = to12HourFormat(time24);
+                    const timeSlot = document.createElement('div');
+                    timeSlot.className = 'grid-cell flex flex-col items-center justify-center'; 
+                    timeSlot.dataset.day = day; timeSlot.dataset.time = time24;
+                    timeSlot.innerHTML = `
+                        <div class="time-display">
+                            <span class="time-value">${time12}</span>
+                            <span class="ampm-indicator">${suffix}</span>
+                        </div>`;
+                    
+                    timeSlot.addEventListener('mousedown', function(e) {
+                        e.preventDefault(); isDragging = true;
+                        isSelecting = !this.classList.contains('selected');
+                        setCellSelectedState(this.dataset.day, this.dataset.time, isSelecting);
+                        updateSelectedSlots();
+                    });
+                    timeSlot.addEventListener('mouseover', function() {
+                        if (isDragging) {
+                            setCellSelectedState(this.dataset.day, this.dataset.time, isSelecting);
+                            updateSelectedSlots();
+                        }
+                    });
+                    timeGrid.appendChild(timeSlot);
+                });
+                tabContent.appendChild(timeGrid);
+                tabContentContainer.appendChild(tabContent);
+            });
+            
+            const TABS_SELECTOR = '#tabLayout .tab';
+            const TAB_CONTENT_SELECTOR = '#tabLayout .tab-content';
+            const tabsElements = document.querySelectorAll(TABS_SELECTOR);
+            tabsElements.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const dayTab = this.dataset.day;
+                    tabsElements.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const tabContents = document.querySelectorAll(TAB_CONTENT_SELECTOR);
+                    tabContents.forEach(content => content.classList.toggle('active', content.dataset.day === dayTab));
+                });
+            });
+        }
+        
+        function exportSelectedTimes() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (!name) { alert('Please enter your name before exporting.'); return; }
+            let exportText = name; let hasSelections = false;
+            for (const day of days) {
+                if (selectedSlots[day] && selectedSlots[day].length > 0) {
+                    exportText += `;${day},${selectedSlots[day].join(',')}`;
+                    hasSelections = true;
+                }
+            }
+            if (!hasSelections) exportText += ";no times selected";
+            document.getElementById('exportOutput').value = exportText;
+        }
+    </script>
+</body>
+</html>
